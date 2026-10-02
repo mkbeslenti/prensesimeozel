@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5f5">
+  <meta name="description" content="Sana küçük bir özürüm var, sevgilim.">
+  <title>Sana bir özürüm var 💗</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: #542c42;
+      background: #fff5f5;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --pink: #ec6e91;
+      --pink-dark: #d94e78;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 24px;
+      background: radial-gradient(ellipse at 50% 42%, #fff 0, #fff8f8 42%, #ffe8ee 100%);
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 590px);
+      padding: clamp(32px, 7vw, 62px) clamp(22px, 7vw, 58px);
+      text-align: center;
+      border: 1px solid #ffffff;
+      border-radius: 30px;
+      background: rgb(255 255 255 / 82%);
+      box-shadow: 0 22px 70px rgb(174 85 112 / 14%);
+      backdrop-filter: blur(8px);
+    }
+    .heart { margin: 0 0 18px; font-size: 48px; animation: heartbeat 1.8s ease-in-out infinite; }
+    h1 { margin: 0; font-size: clamp(1.75rem, 6vw, 2.55rem); line-height: 1.2; letter-spacing: -0.04em; }
+    .question { margin: 18px 0 30px; color: #866475; font-size: clamp(1.05rem, 3.5vw, 1.25rem); }
+    .buttons { min-height: 62px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+    button {
+      min-height: 52px;
+      padding: 13px 27px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 220ms ease, background-color 160ms ease, box-shadow 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:focus-visible { outline: 3px solid #9c4160; outline-offset: 4px; }
+    #yes {
+      position: relative;
+      z-index: 1;
+      color: white;
+      background: var(--pink);
+      box-shadow: 0 8px 20px rgb(236 110 145 / 30%);
+      transform: scale(var(--yes-scale, 1));
+    }
+    #yes:hover { background: var(--pink-dark); }
+    #no { color: #795b6b; background: #f7e9ee; }
+    #no:hover { background: #f1dce4; }
+    .hint { min-height: 22px; margin: 24px 0 0; color: #a48694; font-size: .9rem; }
+    .success h1 { color: var(--pink-dark); }
+    .success .heart { animation-duration: 1s; }
+    .success-message { margin: 19px 0 0; color: #795b6b; font-size: clamp(1.08rem, 4vw, 1.3rem); line-height: 1.65; }
+    .sparkle {
+      position: fixed;
+      z-index: 0;
+      color: #e99ab1;
+      opacity: .48;
+      pointer-events: none;
+      animation: float 7s ease-in-out infinite;
+    }
+    .sparkle.one { top: 12%; left: 12%; font-size: 25px; }
+    .sparkle.two { top: 20%; right: 13%; font-size: 19px; animation-delay: -2s; }
+    .sparkle.three { bottom: 12%; left: 17%; font-size: 20px; animation-delay: -4s; }
+    .sparkle.four { right: 16%; bottom: 16%; font-size: 27px; animation-delay: -1s; }
+    @keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.12); } 28% { transform: scale(1); } 42% { transform: scale(1.08); } }
+    @keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <span class="sparkle one" aria-hidden="true">♡</span>
+  <span class="sparkle two" aria-hidden="true">✦</span>
+  <span class="sparkle three" aria-hidden="true">♡</span>
+  <span class="sparkle four" aria-hidden="true">✦</span>
+
+  <main class="card" id="card" aria-live="polite">
+    <p class="heart" aria-hidden="true">💗</p>
+    <h1>Kalbini kırdığım için senden özür dilerim.</h1>
+    <p class="question" id="question">Özürümü kabul ediyor musun?</p>
+    <div class="buttons" id="buttons">
+      <button id="yes" type="button">Evet 💕</button>
+      <button id="no" type="button">Hayır</button>
+    </div>
+    <p class="hint" id="hint" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const yesButton = document.querySelector("#yes");
+    const noButton = document.querySelector("#no");
+    const card = document.querySelector("#card");
+    const hint = document.querySelector("#hint");
+    let yesScale = 1;
+
+    noButton.addEventListener("click", () => {
+      yesScale *= 1.1;
+      yesButton.style.setProperty("--yes-scale", yesScale);
+      hint.textContent = "Bir daha düşünür müsün? 🥺";
+    });
+
+    yesButton.addEventListener("click", () => {
+      card.classList.add("success");
+      card.innerHTML = `
+        <p class="heart" aria-hidden="true">💖</p>
+        <h1>Kabul edeceğini biliyordum sevgilim!</h1>
+        <p class="success-message">Seni çooooook seviyorum 💕</p>
+      `;
+    });
+  </script>
+</body>
+</html>
